@@ -27,11 +27,13 @@ function App() {
         setTodos(todos.filter((todoC)=>todoC !== todo))
     }
 
-    function addTodo(text) {
+    function addTodo(newT) {
         count.current ++;
         setTodos([...todos, {
             id: count.current + 1,
-            text: text,
+            text: newT.text,
+            date: newT.date,
+            priority: newT.priority,
             completed: false
         }])
     }

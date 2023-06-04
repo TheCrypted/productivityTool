@@ -92,17 +92,41 @@ ul {
 }
 
 .topBar > input {
-  width: 60%;
   background-color: #1a1a1a;
   border: none;
   padding-left: 1vw;
   font-size: 3vh;
   transition: width 0.8s ease;
-  /*text-shadow: 1px 1px 2px white;*/
 }
-.topBar > input:focus {
-  width: 80%;
+.topBar > label{
+  width: 6%;
+  background-color: #1a1a1a;
+  border: none;
+  padding-left: 1vw;
+  font-size: 2vh;
+  transition: width 0.8s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topBar > select {
+  width: 3%;
+  background-color: #242424;
+  border: none;
+  text-align: center;
+}
+
+.inputBar {
+  width: 50%;
+}
+.inputBar:focus {
+  width: 70%;
   outline: none;
+}
+.dateInput::-webkit-datetime-edit-fields-wrapper{
+  font-size: 3vh;
+  /*background-color: #242424;*/
 }
 .topBar > button {
   background-color: #1a1a1a;
