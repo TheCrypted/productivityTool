@@ -2,6 +2,7 @@ import {useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import {AddTodo} from "./AddTodo.jsx";
+import {Sidebar} from "./Sidebar.jsx";
 
 function App() {
     let maxDif = useRef(3)
@@ -50,35 +51,72 @@ function App() {
         <>
         <AddTodo onAddText={addTodo} />
         <div className="mainContent">
-            <div></div>
-            <ul>
+            <div>
+                <Sidebar />
+            </div>
+            <div>
+            <ul> <h2>Tasks for Today:</h2>
                 {todos.map((todo) => {
                     let color = "rgba(" + (255- todo.priority*55) + ", 50," + todo.priority*30 + ")"
                     let date = todo.date.split("-").reverse();
-                    let dateCode = (parseInt(date[0]) - dateToday.getDate()) + (parseInt(date[1]) - dateToday.getMonth())*30;
+                    let dateCode = (parseInt(date[0]) - dateToday.getDate()) + (parseInt(date[1]) - dateToday.getMonth() - 1)*30;
                     if (dateCode > maxDif.current) {
                         maxDif.current = dateCode
                     }
                     let rgb = "rgb("+ Math.floor(255 - (dateCode/maxDif.current * 255)) +", 80, 80)"
                     console.log(dateCode)
-                    return (
-                        <div className="todoItem" key={todo.id}>
-                            <div className="priorityBar" style={{ backgroundColor: color }}></div>
-                            <li>
-                                {todo.text}
-                            </li>
-                            <div className="date">
-                                <div>Complete by:</div>
-                                <div id="dateAc" style={{ backgroundColor: rgb }}>{
-                                    date.join("-")
-                                }
+                    if(dateCode <= 1) {
+                        return (
+                            <div className="todoItem" key={todo.id}>
+                                <div className="priorityBar" style={{backgroundColor: color}}></div>
+                                <li>
+                                    {todo.text}
+                                </li>
+                                <div className="date">
+                                    <div>Complete by:</div>
+                                    <div id="dateAc" style={{backgroundColor: rgb}}>{
+                                        date.join("-")
+                                    }
+                                    </div>
                                 </div>
+                                <button onClick={() => doneActivity(todo)}>Mark Done</button>
                             </div>
-                            <button onClick={() => doneActivity(todo)}>Mark Done</button>
-                        </div>
-                    )
+                        )
+                    }
                 })}
             </ul>
+
+
+            <ul> <h2>Tasks for this Month:</h2>
+                {todos.map((todo) => {
+                    let color = "rgba(" + (255- todo.priority*55) + ", 50," + todo.priority*30 + ")"
+                    let date = todo.date.split("-").reverse();
+                    let dateCode = (parseInt(date[0]) - dateToday.getDate()) + (parseInt(date[1]) - dateToday.getMonth()-1)*30;
+                    if (dateCode > maxDif.current) {
+                        maxDif.current = dateCode
+                    }
+                    let rgb = "rgb("+ Math.floor(255 - (dateCode/maxDif.current * 255)) +", 80, 80)"
+                    if(dateCode > 1 && dateCode <= 30) {
+                        return (
+                            <div className="todoItem" key={todo.id}>
+                                <div className="priorityBar" style={{backgroundColor: color}}></div>
+                                <li>
+                                    {todo.text}
+                                </li>
+                                <div className="date">
+                                    <div>Complete by:</div>
+                                    <div id="dateAc" style={{backgroundColor: rgb}}>{
+                                        date.join("-")
+                                    }
+                                    </div>
+                                </div>
+                                <button onClick={() => doneActivity(todo)}>Mark Done</button>
+                            </div>
+                        )
+                    }
+                })}
+            </ul>
+            </div>
         </div>
         </>
     )

@@ -73,6 +73,7 @@ html, body{
   margin: 0;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 #root{
   max-width: 100%;
@@ -92,7 +93,17 @@ html, body{
 }
 
 ul {
+  background-color: rgb(20, 20, 20);
+  padding-bottom: 2vh;
+  margin: 3vh;
   list-style: none;
+  overflow-y: auto;
+  border-radius: 20px;
+}
+ul>h2{
+  margin-left: 1vh;
+  color: #888888;
+  text-align: left;
 }
 
 .topBar > input {
@@ -123,10 +134,10 @@ ul {
 }
 
 .inputBar {
-  width: 50%;
+  width: 72%;
 }
 .inputBar:focus {
-  width: 70%;
+  /*width: 70%;*/
   outline: none;
 }
 .dateInput::-webkit-datetime-edit-fields-wrapper{
@@ -139,6 +150,38 @@ ul {
   font-size: 2vh;
   border-radius: 0;
   /*text-shadow: 1px 1px 2px white;*/
+}
+.sidebar{
+  width: 100%;
+  height: 100%;
+  background-color: rgb(50, 50, 50);
+  padding-top: 20px;
+  text-align: left;
+  /*font-size: 2vh;*/
+  /*position: sticky;*/
+}
+.filtersDiv{
+  text-align: left;
+  background-color: #1a1a1a;
+  margin: 2vh;
+  box-sizing: border-box;
+  display: grid;
+  border-radius: 15px;
+  font-size: 2.3vh;
+  /*padding: 1vh;*/
+}
+.sidebar > h2{
+  /*padding-bottom: 5px;*/
+  margin-left: 3vh;
+  color: #888888;
+}
+.filtersDiv > div{
+  padding: 0.8vh;
+  padding-left: 2vh;
+}
+.filtersDiv > div:hover{
+  background-color: rgb(60, 60, 60);
+  cursor: pointer;
 }
 .todoItem{
   margin-right: 2%;
@@ -184,6 +227,7 @@ ul {
   border-bottom-left-radius: 15px;
 }
 .mainContent{
+  height: 93%;
   display: grid;
-  grid-template-columns: 15% 85%;
+  grid-template-columns: 18% 82%;
 }

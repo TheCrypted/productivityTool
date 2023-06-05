@@ -23,7 +23,7 @@ export function AddTodo({onAddText}) {
 	return (
 		<>
 			<form className="topBar">
-				<input className="inputBar" onChange={(e) =>{
+				<input className="inputBar" placeholder="Add new Task" onChange={(e) =>{
 					// text.current = e.target.value
 					newT.text = e.target.value
 					setNewT(newT)
