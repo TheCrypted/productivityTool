@@ -8,14 +8,20 @@ function App() {
         {
             id: 1,
             text: 'Learn React',
+            date: "06-06-2023",
+            priority: 3,
             completed: true
         }, {
             id: 2,
             text: 'Learn Redux',
+            date: "06-06-2023",
+            priority: 2,
             completed: true
         }, {
             id: 3,
             text: 'Learn Node',
+            date: "06-06-2023",
+            priority: 1,
             completed: false
         }
     ]
@@ -44,11 +50,14 @@ function App() {
         <div>
             <ul>
                 {todos.map((todo) => {
+                    let color = "rgba(" + (255- todo.priority*55) + ", 50," + todo.priority*30 + ")"
                     return (
                         <div className="todoItem" key={todo.id}>
+                            <div className="priorityBar" style={{ backgroundColor: color }}></div>
                             <li>
                                 {todo.text}
                             </li>
+                            <div className="date">{todo.date.split("/").join("-")}</div>
                             <button onClick={() => doneActivity(todo)}>Mark Done</button>
                         </div>
                     )

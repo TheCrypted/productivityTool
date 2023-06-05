@@ -9,29 +9,30 @@ export function AddTodo({onAddText}) {
 	// let [text, setText] = useState("");
 	// let [priority, setPriority] = useState(0);
 	// let [date, setDate] = useState("");
-	let priority = useRef(0)
-	let date = useRef("")
-	let text = useRef("")
-	useEffect(()=>{
-		setNewT({
-			text: text.current,
-			priority: priority.current,
-			date: date.current
-		})
-		console.log(newT.text)
-	}, [text.current, date.current, priority.current])
+
+	// let priority = useRef(0)
+	// let date = useRef("")
+	// let text = useRef("")
+	// useEffect(()=>{
+	// 	setNewT({
+	// 		text: text.current,
+	// 		priority: priority.current,
+	// 		date: date.current
+	// 	})
+	// }, [text.current])
 	return (
 		<>
 			<form className="topBar">
 				<input className="inputBar" onChange={(e) =>{
-					// text = e.target.value;
-					text.current = e.target.value
-					// console.log(text.current)
+					// text.current = e.target.value
+					newT.text = e.target.value
+					setNewT(newT)
 				}
 				}/>
 				<label>Priority</label>
 				<select onChange={(e) => {
-					priority.current = (parseInt(e.target.value));
+					newT.priority = e.target.value
+					setNewT(newT)
                     // setNewT(e.target.value)
 				}
 				}>
@@ -42,11 +43,13 @@ export function AddTodo({onAddText}) {
                     <option value="5">5</option>
 				</select>
 				<input className="dateInput" type="date" onChange={(e)=>{
-					date.current = (e.target.value);
+					newT.date = e.target.value
+					setNewT(newT)
 				}
 				} />
 				<button type="submit" onClick={(e) => {
 					e.preventDefault()
+					console.log(newT)
 					onAddText(newT)
 				}}>ADD</button>
 			</form>
