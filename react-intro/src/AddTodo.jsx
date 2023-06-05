@@ -49,7 +49,6 @@ export function AddTodo({onAddText}) {
 				} />
 				<button type="submit" onClick={(e) => {
 					e.preventDefault()
-					console.log(newT)
 					onAddText(newT)
 				}}>ADD</button>
 			</form>
