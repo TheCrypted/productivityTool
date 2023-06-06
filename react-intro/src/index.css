@@ -231,3 +231,9 @@ ul>h2{
   display: grid;
   grid-template-columns: 18% 82%;
 }
+.taskList{
+  overflow-y: auto;
+}
+.taskList::-webkit-scrollbar{
+  display: none;
+}

@@ -1,8 +1,11 @@
-import {useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import {AddTodo} from "./AddTodo.jsx";
 import {Sidebar} from "./Sidebar.jsx";
+import {TaskSection} from "./TaskSection.jsx";
+
+
 
 function App() {
     let maxDif = useRef(3)
@@ -29,11 +32,34 @@ function App() {
     ]
 
     let [todos, setTodos] = useState(todosAlpha)
+    let [modeAlpha, setModeAlpha] = useState(0)
     let count = useRef(todosAlpha.length)
     let dateToday = new Date()
+    let thisDay = todos.filter((todo) => calcDate(dateSplit(todo.date)) <= 1);
+    let thisMonth = todos.filter((todo) => calcDate(dateSplit(todo.date)) > 1 && calcDate(dateSplit(todo.date)) <= 30);
+    let remainingTasks = todos.filter((todo) => calcDate(dateSplit(todo.date)) > 30)
+
+    useEffect(() => {
+        thisDay = todos.filter((todo) => calcDate(dateSplit(todo.date)) <= 1);
+        thisMonth = todos.filter((todo) => calcDate(dateSplit(todo.date)) > 1 && calcDate(dateSplit(todo.date)) <= 30);
+        remainingTasks = todos.filter((todo) => calcDate(dateSplit(todo.date)) > 30)
+    }, [todos])
 
     function doneActivity(todo) {
         setTodos(todos.filter((todoC)=>todoC !== todo))
+    }
+    function calcDate(date){
+        return (parseInt(date[0]) - dateToday.getDate()) + (parseInt(date[1]) - dateToday.getMonth() - 1)*30
+    }
+
+    function dateSplit(date){
+        return date.split("-").reverse();
+    }
+    function switchMode(){
+        setModeAlpha(0)
+    }
+    function switchModeTwo(){
+        setModeAlpha(1)
     }
 
     function addTodo(newT) {
@@ -46,77 +72,33 @@ function App() {
             completed: false
         }])
     }
-
     return (
         <>
         <AddTodo onAddText={addTodo} />
         <div className="mainContent">
             <div>
-                <Sidebar />
+                <Sidebar switchMode={switchMode} switchModeTwo={switchModeTwo}/>
             </div>
-            <div>
-            <ul> <h2>Tasks for Today:</h2>
-                {todos.map((todo) => {
-                    let color = "rgba(" + (255- todo.priority*55) + ", 50," + todo.priority*30 + ")"
-                    let date = todo.date.split("-").reverse();
-                    let dateCode = (parseInt(date[0]) - dateToday.getDate()) + (parseInt(date[1]) - dateToday.getMonth() - 1)*30;
-                    if (dateCode > maxDif.current) {
-                        maxDif.current = dateCode
-                    }
-                    let rgb = "rgb("+ Math.floor(255 - (dateCode/maxDif.current * 255)) +", 80, 80)"
-                    console.log(dateCode)
-                    if(dateCode <= 1) {
-                        return (
-                            <div className="todoItem" key={todo.id}>
-                                <div className="priorityBar" style={{backgroundColor: color}}></div>
-                                <li>
-                                    {todo.text}
-                                </li>
-                                <div className="date">
-                                    <div>Complete by:</div>
-                                    <div id="dateAc" style={{backgroundColor: rgb}}>{
-                                        date.join("-")
-                                    }
-                                    </div>
-                                </div>
-                                <button onClick={() => doneActivity(todo)}>Mark Done</button>
-                            </div>
-                        )
-                    }
-                })}
-            </ul>
-
-
-            <ul> <h2>Tasks for this Month:</h2>
-                {todos.map((todo) => {
-                    let color = "rgba(" + (255- todo.priority*55) + ", 50," + todo.priority*30 + ")"
-                    let date = todo.date.split("-").reverse();
-                    let dateCode = (parseInt(date[0]) - dateToday.getDate()) + (parseInt(date[1]) - dateToday.getMonth()-1)*30;
-                    if (dateCode > maxDif.current) {
-                        maxDif.current = dateCode
-                    }
-                    let rgb = "rgb("+ Math.floor(255 - (dateCode/maxDif.current * 255)) +", 80, 80)"
-                    if(dateCode > 1 && dateCode <= 30) {
-                        return (
-                            <div className="todoItem" key={todo.id}>
-                                <div className="priorityBar" style={{backgroundColor: color}}></div>
-                                <li>
-                                    {todo.text}
-                                </li>
-                                <div className="date">
-                                    <div>Complete by:</div>
-                                    <div id="dateAc" style={{backgroundColor: rgb}}>{
-                                        date.join("-")
-                                    }
-                                    </div>
-                                </div>
-                                <button onClick={() => doneActivity(todo)}>Mark Done</button>
-                            </div>
-                        )
-                    }
-                })}
-            </ul>
+            { (modeAlpha === 0) &&
+            <div className="taskList">
+                <ul>
+                    <h2>Tasks for Today:</h2>
+                    <TaskSection iterable={thisDay} setIterable={setTodos} todos={todos}/>
+                </ul>
+                    <ul>
+                    <h2>Tasks for this Month:</h2>
+                    <TaskSection iterable={thisMonth} setIterable={setTodos} todos={todos} />
+                    </ul>
+                    <ul>
+                    <h2>Remaining tasks:</h2>
+                    <TaskSection iterable={remainingTasks} setIterable={setTodos} todos={todos} />
+                    </ul>
+                    <ul>
+                    <h2>All tasks:</h2>
+                    <TaskSection iterable={todos} setIterable={setTodos} todos={todos} />
+                    </ul>
             </div>
+            }
         </div>
         </>
     )
