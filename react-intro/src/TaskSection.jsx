@@ -5,6 +5,7 @@ export function TaskSection({iterable, setIterable, todos}) {
 	}
 
 	function dateSplit(date){
+		console.log(date)
 		return date.split("-").reverse();
 	}
 	let dateToday = new Date()

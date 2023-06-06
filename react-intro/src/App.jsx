@@ -14,7 +14,7 @@ function App() {
             id: 1,
             text: 'Learn React',
             date: "2023-06-6",
-            priority: 3,
+            priority: 1,
             completed: true
         }, {
             id: 2,
@@ -26,7 +26,7 @@ function App() {
             id: 3,
             text: 'Learn Node',
             date: "2023-06-9",
-            priority: 1,
+            priority: 3,
             completed: false
         }
     ]
@@ -52,6 +52,20 @@ function App() {
         return (parseInt(date[0]) - dateToday.getDate()) + (parseInt(date[1]) - dateToday.getMonth() - 1)*30
     }
 
+    function sortTodo(todos) { //bubble sort T_T
+        const length = todos.length;
+        for (let i = 0; i < length - 1; i++) {
+            for (let j = 0; j < length - i - 1; j++) {
+                if (todos[j].priority > todos[j + 1].priority) {
+                    // Swap the elements
+                    const temp = todos[j].priority;
+                    todos[j].priority = todos[j + 1].priority;
+                    todos[j + 1].priority = temp;
+                }
+            }
+        }
+        return todos;
+    }
     function dateSplit(date){
         return date.split("-").reverse();
     }
@@ -72,6 +86,9 @@ function App() {
             completed: false
         }])
     }
+
+    let sortedTodos = sortTodo(todos)
+
     return (
         <>
         <AddTodo onAddText={addTodo} />
@@ -98,6 +115,14 @@ function App() {
                     <TaskSection iterable={todos} setIterable={setTodos} todos={todos} />
                     </ul>
             </div>
+            }
+            { (modeAlpha === 1) &&
+                <div className="taskList">
+                    <ul>
+                        <h2>Tasks by Priority:</h2>
+                        <TaskSection iterable={sortedTodos} setIterable={setTodos} todos={todos}/>
+                    </ul>
+                </div>
             }
         </div>
         </>
